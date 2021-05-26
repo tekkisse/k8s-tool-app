@@ -1,0 +1,28 @@
+{{- if eq .Values.tls "ingress" -}}
+  {{- if eq .Values.ingress.tls.source "letsEncrypt" -}}
+    {{- $certmanagerVer :=  split "." .Values.certmanager.version -}}
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: {{ template "rancher.fullname" . }}
+  labels:
+    app: {{ template "rancher.fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  acme:
+    {{- if eq .Values.letsEncrypt.environment "production" }}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    {{- else }}
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    {{- end }}
+    email: {{ .Values.letsEncrypt.email }}
+    privateKeySecretRef:
+      name: letsencrypt-{{ .Values.letsEncrypt.environment }}
+    solvers:
+    - http01:
+        ingress:
+          class: {{ .Values.letsEncrypt.ingress.class }}
+  {{- end -}}
+{{- end -}}

@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1beta1
+kind: ClusterIssuer
+metadata:
+  name: demo-issuer
+  namespace: kube-system
+spec:
+  acme:
+    email: {{ .Values.issuerEmail }}
+    privateKeySecretRef:
+      name: letsencrypt-secret
+    # CAUTION: Uncomment and use the production server only when you're stable. You risk hitting your rate limit otherwise.
+    # server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: traefik

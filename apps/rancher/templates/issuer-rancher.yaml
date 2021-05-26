@@ -1,0 +1,17 @@
+{{- if eq .Values.tls "ingress" -}}
+  {{- if eq .Values.ingress.tls.source "rancher" -}}
+    {{- $certmanagerVer :=  split "." .Values.certmanager.version -}}
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: {{ template "rancher.fullname" . }}
+  labels:
+    app: {{ template "rancher.fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  ca:
+    secretName: tls-rancher
+  {{- end -}}
+{{- end -}}

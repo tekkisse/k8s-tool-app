@@ -1,0 +1,8 @@
+resources:
+  - resources/vault-operator.yaml
+  - resources/vault-impl.yaml
+  - resources/vault-webhook.yaml
+  - resources/cert-manager-crds.yaml
+  - resources/cert-manager.yaml
+  - resources/rancher.yaml
+  - resources/other-resources.yaml

@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: other-resources
+  namespace: kube-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: tools
+  source:
+    path: apps/other-resources
+    repoURL: https://github.com/atoy3731/k8s-tools-app.git
+    targetRevision: master
+    helm:
+      values: |
+        argoHost: "argo.demo.atoy.dev"
+        issuerEmail: "adam@atoy.dev"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
