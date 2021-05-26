@@ -18,8 +18,8 @@ spec:
     targetRevision: master
     helm:
       values: |
-        argoHost: "argo.demo.atoy.dev"
-        issuerEmail: "adam@atoy.dev"
+        argoHost: "argo.chi.swan.ac.ukv"
+        issuerEmail: "simon@chi.swan.ac.uk"
   syncPolicy:
     automated:
       prune: true
